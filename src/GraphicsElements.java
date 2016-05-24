@@ -39,6 +39,7 @@ public class GraphicsElements {
 	 * JOptionPane.showMessageDialog)and ask for it again.
 	 */
 	public ArrayList createAPileOfDisks() {
+		return null;
 	}
 
 	/**
@@ -51,6 +52,29 @@ public class GraphicsElements {
 	 * error message (use JOptionPane.showMessageDialog)and ask for it again.
 	 */
 	public ArrayList createACheckeredBoard() {
+		boolean valid = false;
+		int rows = 0;
+		Color[] colors = {new Color(0,85,178), new Color(255,162,0)};
+		boolean colorSwitch = true;
+		while(!valid){
+			rows = Integer.parseInt(JOptionPane.showInputDialog(
+					null,
+					"Please enter a value between 1 and " + MAXIMUM_NUMBER_OF_ROWS,
+					JOptionPane.INFORMATION_MESSAGE));
+			if(rows > 0 && rows <= MAXIMUM_NUMBER_OF_ROWS) valid = true;
+		}
+		ArrayList<Rectangle> squares = new ArrayList<>();
+		int size = (WIDTH > HEIGHT)?HEIGHT/rows:WIDTH/rows;
+		int center = (WIDTH - HEIGHT)/2;
+		for (int i = 0; i <= rows; i++) {
+			for (int j = 0; j <= rows; j++) {
+				squares.add(new Rectangle(i * size, j * size,size,size,colors[(colorSwitch?0:1)],true));
+				colorSwitch = !colorSwitch;
+			}
+			if(!(rows % 2 == 0))colorSwitch = !colorSwitch;
+		}
+		System.out.print(center);
+		return squares;
 	}
 
 	/**
@@ -64,6 +88,7 @@ public class GraphicsElements {
 	 * JOptionPane.showMessageDialog)and ask for it again.
 	 */
 	public ArrayList createASierpinskiTriangle() {
+		return null;
 	}
 
 	/**
@@ -75,6 +100,7 @@ public class GraphicsElements {
 	 * Precondition: graphicsList describes a pile of disks
 	 */
 	public ArrayList rotateColorsInPileOfDisks(ArrayList graphicsList) {
+		return null;
 	}
 
 	/**
@@ -82,6 +108,7 @@ public class GraphicsElements {
 	 * Precondition: graphicsList describes a checkered board
 	 */
 	public ArrayList flipColorsInCheckeredBoard(ArrayList graphicsList) {
+		return null;
 	}
 
 	/**
@@ -92,6 +119,7 @@ public class GraphicsElements {
 	 * Precondition: graphicsList describes a Sierpinski triangle
 	 */
 	public ArrayList changeColorsInSierpinskiTriangle(ArrayList graphicsList) {
+		return null;
 	}
 
 	/**
@@ -100,6 +128,7 @@ public class GraphicsElements {
 	 * Precondition: graphicsList describes a pile of disks
 	 */
 	public Color getColorInPileOfDisks(int x, int y, ArrayList graphicsList) {
+		return null;
 	}
 
 	/**
@@ -108,6 +137,7 @@ public class GraphicsElements {
 	 * Precondition: graphicsList describes a checkered board
 	 */
 	public Color getColorInCheckeredBoard(int x, int y, ArrayList graphicsList) {
+		return null;
 	}
 
 	/**
@@ -117,5 +147,6 @@ public class GraphicsElements {
 	 */
 	public Color getColorInSierpinskiTriangle(int x, int y,
 			ArrayList graphicsList) {
+		return null;
 	}
 }
