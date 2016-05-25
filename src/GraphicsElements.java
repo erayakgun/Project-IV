@@ -38,8 +38,46 @@ public class GraphicsElements {
 	 * MAXIMUM_NUMBER_OF_DISKS, display an error message (use
 	 * JOptionPane.showMessageDialog)and ask for it again.
 	 */
-	public ArrayList createAPileOfDisks() {
-		return null;
+	public ArrayList<Oval> createAPileOfDisks() {
+		
+		Input input = new Input();
+		int numDisks = 0;
+		
+		// get our number of disks from the user
+		do {
+			numDisks = input.readIntDialog("How many disks? (max of " + MAXIMUM_NUMBER_OF_DISKS + "):");
+			if (numDisks <= 0 || numDisks > MAXIMUM_NUMBER_OF_DISKS){
+				JOptionPane.showMessageDialog(null, "Sorry, that number is out of range.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+			}
+		} while (numDisks <= 0 || numDisks > MAXIMUM_NUMBER_OF_DISKS);
+		
+		// setup
+		// initialize the array list to return
+		ArrayList<Oval> pile = new ArrayList<Oval>(numDisks);
+		int maxDiameter = WIDTH;
+		int minDiameter = 10;
+		int steppingSize = (maxDiameter - minDiameter) / numDisks;
+		
+		
+		// create the disks
+		for (int i = 0; i < numDisks; i ++){
+			Oval disk = new Oval(
+					i*steppingSize/2,
+					i*steppingSize/2, 
+					maxDiameter - (steppingSize * i), 
+					maxDiameter - (steppingSize * i),
+					randomColor(),
+					true);
+			pile.add(disk);
+		}
+		
+		return pile;
+	}
+	
+	private Color randomColor(){
+		Random gen = new Random();
+		Color random = new Color(gen.nextInt(255), gen.nextInt(255), gen.nextInt(255));
+		return random;
 	}
 
 	/**
