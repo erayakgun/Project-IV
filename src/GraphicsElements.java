@@ -137,8 +137,25 @@ public class GraphicsElements {
 	 * bottom to top, blue, yellow, red).<br>
 	 * Precondition: graphicsList describes a pile of disks
 	 */
-	public ArrayList rotateColorsInPileOfDisks(ArrayList graphicsList) {
-		return null;
+	public ArrayList<Oval> rotateColorsInPileOfDisks(ArrayList<Oval> graphicsList) {
+		// iterate through our list
+		// store first disks color
+		Color firstDiskColor = graphicsList.get(0).getColor();
+		for (int i = 0; i < graphicsList.size(); i++){
+			// current disk in loop
+			Oval disk = graphicsList.get(i);
+			// use the next disk, if last disk use first ones color
+			if (i < graphicsList.size()-1){
+				// replace the color with next disk
+				disk.setColor(graphicsList.get(i + 1).getColor());
+			} else {
+				disk.setColor(firstDiskColor);
+			}
+			
+			// save the disk
+			graphicsList.set(i, disk);
+		}
+		return graphicsList;
 	}
 
 	/**
