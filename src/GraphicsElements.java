@@ -182,7 +182,29 @@ public class GraphicsElements {
 	 * part of the pile of disks, return null.<br>
 	 * Precondition: graphicsList describes a pile of disks
 	 */
-	public Color getColorInPileOfDisks(int x, int y, ArrayList graphicsList) {
+	public Color getColorInPileOfDisks(int x, int y, ArrayList<Oval> graphicsList) {
+		// iterate through list, starting from end
+		// we start from the end since those discs are on top,
+		// and going to be the one clicked
+		for (int i = graphicsList.size()-1; i >=0; i--){
+			Oval disk = graphicsList.get(i);
+			
+			int radius = (disk.getWidth()/2);
+			int distanceX = x - disk.getCenterX();
+			int distanceY = y - disk.getCenterY();
+			
+			// pythagoras rocks!  
+			// leave these squared for easy comparison
+			int distance = distanceX*distanceX + distanceY*distanceY;
+			radius *= radius;
+			
+			if (distance < radius){
+				// click was within this disks radius!
+				// return this color, breaking out of the loop.
+				return disk.getColor();
+			}
+		}
+		// not within any disc at this point
 		return null;
 	}
 
