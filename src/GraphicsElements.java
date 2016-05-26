@@ -150,9 +150,74 @@ public class GraphicsElements {
 	 * MAXIMUM_NUMBER_OF_POINTS, display an error message (use
 	 * JOptionPane.showMessageDialog)and ask for it again.
 	 */
-	public ArrayList createASierpinskiTriangle() {
-		return null;
-	}
+	public ArrayList<Oval> createASierpinskiTriangle() {
+		// get the number of points from the user
+
+	     int pointCount;
+		do {
+
+	        Input input = new Input();
+			pointCount = input.readIntDialog("How many points in the triangle?");
+	        if (pointCount <= 0 || pointCount > MAXIMUM_NUMBER_OF_POINTS){
+
+	                JOptionPane.showMessageDialog(null, "Sorry, that number is out of range.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+	            }
+
+	        } while (pointCount <= 0 || pointCount > MAXIMUM_NUMBER_OF_POINTS);
+
+
+	        ArrayList<Oval> points = new ArrayList<Oval>();
+
+	        Oval p1 = new Oval(WIDTH / 2, 0, 2, 2, Color.blue, true);
+
+	        Oval p2 = new Oval(0, HEIGHT - 1, 2, 2, Color.blue, true);
+
+	        Oval p3 = new Oval(WIDTH - 1, HEIGHT - 1, 2, 2, Color.blue, true);
+
+	        Random randomGenerator = new Random();
+
+	        Oval p = p1;
+
+	        for (int i = 0; i < pointCount; i++) {
+
+	            int choice = randomGenerator.nextInt(3) + 1;
+
+	            int x = 0;
+
+	            int y = 0;
+
+	            if (choice == 1) {
+
+	                x = p1.getX();
+
+	                y = p1.getY();
+
+	            } else if (choice == 2) {
+
+	                x = p2.getX();
+
+	                y = p2.getY();
+
+	            } else if (choice == 3) {
+
+	                x = p3.getX();
+
+	                y = p3.getY();
+
+	            }
+
+	            int midX = (p.getX() + x) / 2;
+
+	            int midY = (p.getY() + y) / 2;
+
+	            Oval q = new Oval(midX - 1, midY - 1, 2, 2, Color.blue, true);
+
+	            points.add(q);
+
+	            p = q;
+	        }
+	        return points;
+	    }
 
 	/**
 	 * Rotate the colors in the pile of disks. Set the color of each disk to the
@@ -203,9 +268,37 @@ public class GraphicsElements {
 	 * green make it blue).<br>
 	 * Precondition: graphicsList describes a Sierpinski triangle
 	 */
-	public ArrayList changeColorsInSierpinskiTriangle(ArrayList graphicsList) {
-		return null;
-	}
+	public ArrayList<Oval> changeColorsInSierpinskiTriangle(ArrayList<Oval> graphicsList) {
+		 Color newColor = Color.blue;
+
+	        if (!graphicsList.isEmpty()) {
+
+	            Color oldColor = graphicsList.get(0).getColor();
+
+	            if (oldColor == Color.blue) {
+
+	                newColor = Color.red;
+
+	            } else if (oldColor == Color.red) {
+
+	                newColor = Color.green;
+
+	            } else if (oldColor == Color.green) {
+
+	                newColor = Color.blue;
+
+	            }
+
+	        }    
+
+	        for (Oval o : graphicsList) {
+
+	            o.setColor(newColor);
+
+	        }
+	         return graphicsList;
+
+	    }
 
 	/**
 	 * Return the color at location (x,y) in the pile of disks. If (x,y) is not
@@ -265,7 +358,27 @@ public class GraphicsElements {
 	 * Precondition: graphicsList describes a Sierpinski triangle
 	 */
 	public Color getColorInSierpinskiTriangle(int x, int y,
-			ArrayList graphicsList) {
-		return null;
+			ArrayList<Oval> graphicsList) {
+		for (Oval o : graphicsList) {
+
+            int centerX = o.getCenterX();
+
+            int centerY = o.getCenterY();
+
+            double diffX = x - centerX;
+
+            double diffY = y - centerY;
+
+            double dist = (x * x) + (y * y);
+
+
+            if (dist <= 1.0) {
+
+                return o.getColor();
+
+            }
+
+        }
+        return null;
 	}
 }
