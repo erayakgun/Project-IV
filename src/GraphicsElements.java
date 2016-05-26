@@ -56,15 +56,21 @@ public class GraphicsElements {
 		// initialize the array list to return
 		ArrayList<Oval> pile = new ArrayList<Oval>(numDisks);
 		int maxDiameter = WIDTH;
+		int offsetX = 0, offsetY = 0;
+		if (HEIGHT < WIDTH) { 
+			maxDiameter = HEIGHT;
+			offsetX = (WIDTH - HEIGHT) / 2;
+		} else {
+			offsetY = (HEIGHT - WIDTH) / 2;
+		}
 		int minDiameter = 10;
 		int steppingSize = (maxDiameter - minDiameter) / numDisks;
-		
 		
 		// create the disks
 		for (int i = 0; i < numDisks; i ++){
 			Oval disk = new Oval(
-					i*steppingSize/2,
-					i*steppingSize/2, 
+					offsetX + i*steppingSize/2,
+					offsetY + i*steppingSize/2, 
 					maxDiameter - (steppingSize * i), 
 					maxDiameter - (steppingSize * i),
 					randomColor(),
