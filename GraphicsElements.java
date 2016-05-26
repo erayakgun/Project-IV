@@ -257,18 +257,14 @@ public class GraphicsElements {
 		            } else if (oldColor == Color.green) {
 
 		                newColor = Color.blue;
-
 		            }
-
 		        }    
 
 		        for (Oval o : graphicsList) {
 
 		            o.setColor(newColor);
-
 		        }
 		         return graphicsList;
-
 		    }
 
 	/**
