@@ -26,6 +26,7 @@ public class GraphicsElements {
 	public static final int HEIGHT = ViewWindow.WINDOW_HEIGHT;
 
 	// Put your other instance fields here (if you need any)
+	private static final Color[] RECTCOLORS = {new Color(0,85,178), new Color(255,162,0)};
 
 	/**
 	 * Create a top view of a pile of disks of decreasing diameters (from bottom
@@ -96,28 +97,46 @@ public class GraphicsElements {
 	 * error message (use JOptionPane.showMessageDialog)and ask for it again.
 	 */
 	public ArrayList createACheckeredBoard() {
+
 		boolean valid = false;
 		int rows = 0;
-		Color[] colors = {new Color(0,85,178), new Color(255,162,0)};
 		boolean colorSwitch = true;
+
 		while(!valid){
-			rows = Integer.parseInt(JOptionPane.showInputDialog(
-					null,
-					"Please enter a value between 1 and " + MAXIMUM_NUMBER_OF_ROWS,
-					JOptionPane.INFORMATION_MESSAGE));
+			//try for valid user input parsed as int
+			try {
+				rows = Integer.parseInt(JOptionPane.showInputDialog(
+						null,
+						"Please enter a value between 1 and " + MAXIMUM_NUMBER_OF_ROWS,
+						JOptionPane.INFORMATION_MESSAGE));
+			}catch(NumberFormatException e){
+				e.printStackTrace();
+				continue;
+			}
 			if(rows > 0 && rows <= MAXIMUM_NUMBER_OF_ROWS) valid = true;
 		}
+
+		// populate new arraylist with Rectangle objects
 		ArrayList<Rectangle> squares = new ArrayList<>();
-		int size = (WIDTH > HEIGHT)?HEIGHT/rows:WIDTH/rows;
-		int center = (WIDTH - HEIGHT)/2;
-		for (int i = 0; i <= rows; i++) {
-			for (int j = 0; j <= rows; j++) {
-				squares.add(new Rectangle(i * size, j * size,size,size,colors[(colorSwitch?0:1)],true));
+
+		//get size and margin boxed as doubles for accuracy
+		Double dSize = new Double((WIDTH > HEIGHT)?HEIGHT/rows:WIDTH/rows);
+		Double dMargin = new Double((WIDTH - (dSize * rows)) /2);
+
+		//get int values for size and margin
+		int size = dSize.intValue();
+		int margin = dMargin.intValue();
+
+		//add squares to arraylist
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < rows; j++) {
+				squares.add(new Rectangle(i * size + margin, j * size,size,size,RECTCOLORS[(colorSwitch?0:1)],true));
+				//alternate colors
 				colorSwitch = !colorSwitch;
 			}
-			if(!(rows % 2 == 0))colorSwitch = !colorSwitch;
+			//if rows are even, swap colors
+			if((rows % 2 == 0))colorSwitch = !colorSwitch;
 		}
-		System.out.print(center);
 		return squares;
 	}
 
@@ -168,8 +187,13 @@ public class GraphicsElements {
 	 * Flip the 2 colors of the checkboard<br>
 	 * Precondition: graphicsList describes a checkered board
 	 */
-	public ArrayList flipColorsInCheckeredBoard(ArrayList graphicsList) {
-		return null;
+	public ArrayList flipColorsInCheckeredBoard(ArrayList<Rectangle> graphicsList) {
+
+		//iterate through list and switch colors
+		for (Rectangle square : graphicsList) {
+			square.setColor((square.getColor() == RECTCOLORS[0])?RECTCOLORS[1]:RECTCOLORS[0]);
+		}
+		return graphicsList;
 	}
 
 	/**
@@ -219,7 +243,19 @@ public class GraphicsElements {
 	 * not part of the board, return null.<br>
 	 * Precondition: graphicsList describes a checkered board
 	 */
-	public Color getColorInCheckeredBoard(int x, int y, ArrayList graphicsList) {
+	public Color getColorInCheckeredBoard(int x, int y, ArrayList<Rectangle> graphicsList) {
+
+		//iterate through each square in board
+		for (Rectangle square : graphicsList) {
+
+			//if x and y fall inside bounds of rectangle, return color
+			if(x > square.getX()
+					&& x < square.getX() + square.getWidth()
+					&& y > square.getY()
+					&& y < square.getY() + square.getHeight()){
+				return square.getColor();
+			}
+		}
 		return null;
 	}
 
